@@ -6,18 +6,21 @@ from amodule import aMODULE
 
 
 def f():
-<<<<<<< HEAD
-    return cmodule.e
-	
-print (f())
+
+
+<< << << < HEAD
+return cmodule.e
+
+print(f())
 aMODULE.actionX()
-=======
-    return cmodule.g
+== == == =
+return cmodule.g
 
 
 print(f())
 
->>>>>>> 8bd440f1587a1ccf2099c3b716232ec3e7ab86f2
+>>>>>> > 8bd440f1587a1ccf2099c3b716232ec3e7ab86f2
+
 
 def cleanup(self):
     return
