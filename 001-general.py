@@ -4,6 +4,8 @@
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+
+unUsed=0
 #%%
 def rollDice():
     roll = random.randint(1,100)
