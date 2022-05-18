@@ -5,7 +5,7 @@ import cmodule
 
 def f():
     return cmodule.g
-	
+
 print (f())
 
 
