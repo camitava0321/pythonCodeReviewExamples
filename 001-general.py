@@ -152,4 +152,73 @@ while x < 100:
     result = rollDice()
     print(result)
     x+=1
+    
 
+
+#%% 0 error-prone cases
+#Ex 1
+def foo(bar=[]):        # bar is optional and defaults to [] if not specified
+    bar.append("baz")    # but this line could be problematic, as we'll see...
+    return bar
+
+
+#Ex 2
+class A(object):
+    x = 1
+
+class B(A):
+    pass
+
+class C(A):
+    pass
+
+
+#Ex 3
+try:
+    l = ["a", "b"]
+    int(l[2])
+
+except ValueError, IndexError:  # To catch both exceptions, right?
+    pass
+
+#Ex 4
+x = 10
+def foo():
+    x += 1
+    print x
+
+#Ex 5
+odd = lambda x : bool(x % 2)
+numbers = [n for n in range(10)]
+for i in range(len(numbers)):
+    if odd(numbers[i]):
+    del numbers[i]  # BAD: Deleting item from a list while iterating over it
+    
+#6: Confusing how Python binds variables in closures
+def create_multipliers():
+    return [lambda x : i * x for i in range(5)]
+
+for multiplier in create_multipliers():
+    print multiplier(2)    
+    
+
+#7: Failing to address differences between Python 2 and Python 3
+import sys
+
+def bar(i):
+    if i == 1:
+        raise KeyError(1)
+    if i == 2:
+        raise ValueError(2)
+
+def bad():
+    e = None
+    try:
+        bar(int(sys.argv[1]))
+    except KeyError as e:
+        print('key error')
+    except ValueError as e:
+        print('value error')
+    print(e)
+
+    
