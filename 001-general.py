@@ -1,38 +1,43 @@
 # -*- coding: utf-8 -*-
-#author : Amitava Chakraborty
+# author : Amitava Chakraborty
 
+import sys
 import random
 import numpy as np
 import matplotlib.pyplot as plt
 
-unUsed=0
-#%%
+unUsed = 0
+# %%
+
+
 def rollDice():
-    roll = random.randint(1,100)
+    roll = random.randint(1, 100)
     return roll
 
 
 def checkRoll(roll):
     if roll == 100:
-        #print roll,'roll was 100, you lose. What are the odds?! Play again!'
+        # print roll,'roll was 100, you lose. What are the odds?! Play again!'
         return False
     elif roll <= 51:
-        #print roll,'roll was 1-50, you lose.'
+        # print roll,'roll was 1-50, you lose.'
         return False
     elif 100 > roll >= 51:
-        #print roll,'roll was 51-99, you win! *pretty lights flash* (play more!)'
+        # print roll,'roll was 51-99, you win! *pretty lights flash* (play more!)'
         return True
 
 
 '''
 Simple bettor, betting the same amount each time.
 '''
-def simple_bettor(funds,initial_wager,wager_count):
+
+
+def simple_bettor(funds, initial_wager, wager_count):
     value = funds
     wager = initial_wager
     # wager X
     wX = []
-    #value Y
+    # value Y
     vY = []
 
     plt.ylabel('Account Value')
@@ -50,21 +55,22 @@ def simple_bettor(funds,initial_wager,wager_count):
         wX.append(currentWager)
         vY.append(value)
         currentWager += 1
-        plt.plot(wX,vY)
+        plt.plot(wX, vY)
         if value < 0:
             value = 'Broke!'
             break
-        #print 'Attempt: ',currentWager, 'Funds:', value
+        # print 'Attempt: ',currentWager, 'Funds:', value
+
 
 def complex_bettor(funds):
-    value=funds
-    #Complexity 1: Random Initial (or Fixed) Wager
-    wager = random.randrange(100,value/10,100)
-    #Complexity 2: Max How many times to play 
-    maxWagers=random.randrange(80,120,10)
+    value = funds
+    # Complexity 1: Random Initial (or Fixed) Wager
+    wager = random.randrange(100, value/10, 100)
+    # Complexity 2: Max How many times to play
+    maxWagers = random.randrange(80, 120, 10)
     # wager X
     wX = []
-    #value Y
+    # value Y
     vY = []
 
     plt.ylabel('Account Value')
@@ -72,8 +78,8 @@ def complex_bettor(funds):
     # starts with 1, to avoid confusion so we start @ wager 1
     currentWager = 1
 
-    while value>0:
-        quitted=False
+    while value > 0:
+        quitted = False
         roll = rollDice()
         if checkRoll(roll):
             value += wager
@@ -82,98 +88,104 @@ def complex_bettor(funds):
 
         wX.append(currentWager)
         vY.append(value)
-        #Complexity 3: Next wager is always 10th of the value remaining, minimum 100
+        # Complexity 3: Next wager is always 10th of the value remaining, minimum 100
         wager = min(100, value/10)
         currentWager += 1
-        plt.plot(wX,vY)
+        plt.plot(wX, vY)
         #print ('Attempt: ',currentWager, 'Funds:', value)
-        if currentWager==maxWagers:
-            break;
-        #Complexity 4: After 75% of the game, player is given choice to quit
-        gameFraction=float(currentWager)/float(maxWagers)
-        if gameFraction>=0.75:
-            quitted=quitGame(gameFraction, value/funds)
-            #print(quitted)
-            if quitted==True:
+        if currentWager == maxWagers:
+            break
+        # Complexity 4: After 75% of the game, player is given choice to quit
+        gameFraction = float(currentWager)/float(maxWagers)
+        if gameFraction >= 0.75:
+            quitted = quitGame(gameFraction, value/funds)
+            # print(quitted)
+            if quitted == True:
                 break
     return currentWager, value, quitted
-    
+
 
 def quitGame(gameFraction, valueFraction):
-    numberOfFalses=np.full(int(gameFraction*100), False)
-    numberOfTruths=np.full(int(valueFraction*100), True)
-    listOfTrueFalses =  np.concatenate((numberOfFalses, numberOfTruths), axis=None)
-    print (listOfTrueFalses)
+    numberOfFalses = np.full(int(gameFraction*100), False)
+    numberOfTruths = np.full(int(valueFraction*100), True)
+    listOfTrueFalses = np.concatenate(
+        (numberOfFalses, numberOfTruths), axis=None)
+    print(listOfTrueFalses)
     return random.choice(listOfTrueFalses)
-        
-    
 
-#%%
-import matplotlib.pyplot as plt
-simple_bettor(10000,100,100)
+
+# %%
+simple_bettor(10000, 100, 100)
+
 
 def quitGame(gameFraction, valueFraction):
-    numberOfFalses=np.full(int(gameFraction*100), False)
-    numberOfTruths=np.full(int(valueFraction*100), True)
-    listOfTrueFalses =  np.concatenate((numberOfFalses, numberOfTruths), axis=None)
-    print (listOfTrueFalses)
+    numberOfFalses = np.full(int(gameFraction*100), False)
+    numberOfTruths = np.full(int(valueFraction*100), True)
+    listOfTrueFalses = np.concatenate(
+        (numberOfFalses, numberOfTruths), axis=None)
+    print(listOfTrueFalses)
     return random.choice(listOfTrueFalses)
 
-#%%
+
+# %%
 x = 0
 
 # start this off @ 1, then add, and increase 50 to 500, then 1000
 while x < 10000:
-    simple_bettor(10000,1000,10)
+    simple_bettor(10000, 1000, 10)
     x += 1
 plt.show()
 
-#%%
+# %%
 x = 0
 
 # start this off @ 1, then add, and increase 50 to 500, then 1000
-playersShare=0 ; casinoShare = 0
+playersShare = 0
+casinoShare = 0
 while x < 100:
     wagers, finalFund, quitted = complex_bettor(10000)
-    print("Player: ", x, "---# of wagers: ", wagers, 'Final Funds: ', finalFund, 'Quit: ', quitted)
-    if finalFund>10000:
+    print("Player: ", x, "---# of wagers: ", wagers,
+          'Final Funds: ', finalFund, 'Quit: ', quitted)
+    if finalFund > 10000:
         playersShare += finalFund
     else:
         casinoShare += abs(finalFund)
     x += 1
 
-print ("Total Fund Played: ",10000*100, "Players: ", playersShare, "Casino: ", casinoShare)
+print("Total Fund Played: ", 10000*100, "Players: ",
+      playersShare, "Casino: ", casinoShare)
 plt.show()
 
-#%%
-# Now, just to test our dice, let's roll the dice 100 times. 
+# %%
+# Now, just to test our dice, let's roll the dice 100 times.
 x = 0
 while x < 100:
     result = rollDice()
     print(result)
-    x+=1
-    
+    x += 1
 
 
-#%% 0 error-prone cases
-#Ex 1
+# %% 0 error-prone cases
+# Ex 1
 def foo(bar=[]):        # bar is optional and defaults to [] if not specified
     bar.append("baz")    # but this line could be problematic, as we'll see...
     return bar
 
 
-#Ex 2
+# Ex 2
 class A(object):
     x = 1
 
+
 class B(A):
     pass
+
 
 class C(A):
     pass
 
 
-#Ex 3
+# Ex 3
 try:
     l = ["a", "b"]
     int(l[2])
@@ -181,35 +193,44 @@ try:
 except ValueError, IndexError:  # To catch both exceptions, right?
     pass
 
-#Ex 4
+# Ex 4
 x = 10
+
+
 def foo():
     x += 1
     print x
 
-#Ex 5
-odd = lambda x : bool(x % 2)
+
+# Ex 5
+def odd(x): return bool(x % 2)
+
+
 numbers = [n for n in range(10)]
 for i in range(len(numbers)):
     if odd(numbers[i]):
     del numbers[i]  # BAD: Deleting item from a list while iterating over it
-    
-#6: Confusing how Python binds variables in closures
+
+# 6: Confusing how Python binds variables in closures
+
+
 def create_multipliers():
-    return [lambda x : i * x for i in range(5)]
+    return [lambda x: i * x for i in range(5)]
+
 
 for multiplier in create_multipliers():
-    print multiplier(2)    
-    
+    print multiplier(2)
 
-#7: Failing to address differences between Python 2 and Python 3
-import sys
+
+# 7: Failing to address differences between Python 2 and Python 3
+
 
 def bar(i):
     if i == 1:
         raise KeyError(1)
     if i == 2:
         raise ValueError(2)
+
 
 def bad():
     e = None
@@ -220,5 +241,3 @@ def bad():
     except ValueError as e:
         print('value error')
     print(e)
-
-    
