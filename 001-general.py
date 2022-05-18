@@ -221,4 +221,10 @@ def bad():
         print('value error')
     print(e)
 
-    
+#%%
+from amodule import amodule
+print (amodule(50))
+
+#%%
+from amodule import aMODULE
+print (aMODULE(50))

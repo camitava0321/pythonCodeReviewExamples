@@ -4,3 +4,6 @@ import bmodule
 
 def g():
     return bmodule.f
+
+def e():
+    return
