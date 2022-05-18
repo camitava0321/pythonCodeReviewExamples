@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-#author : Amitava Chakraborty
+# author : Amitava Chakraborty
 
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+
+
 @tools.route("/is_xml", methods=['POST'])
 def tools_is_xml():
     try:
