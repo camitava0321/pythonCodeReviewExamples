@@ -153,7 +153,41 @@ while x < 100:
     print(result)
     x+=1
     
+    
+    
+#%%
+for _ in range(10):
+    for _ in range(5):
+        for _ in range(3):
+            for _ in range(1):
+                print("Baa, Baa, black sheep")
 
+for _ in range(4):
+    for _ in range(3):
+        print("Have you any wool?")
+
+for _ in range(10):
+    for _ in range(5):
+        for _ in range(3):
+            if True:
+                for _ in range(3):
+                    print("Yes, sir, yes, sir!")    
+
+
+#%%
+# list_primes.py
+def is_prime (number):
+  for i in range(2, number):
+    if number%i==0:
+      return False
+  return True
+
+def list_primes(upper):
+    for number in range(2, upper):
+        if is_prime(number):
+            print(F"{number} is prime")
+
+list_primes(10)
 
 #%% 0 error-prone cases
 #Ex 1
