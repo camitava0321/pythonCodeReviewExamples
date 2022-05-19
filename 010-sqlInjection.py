@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-#author : Amitava Chakraborty
+# author : Amitava Chakraborty
 
 import random
 import numpy as np
 import matplotlib.pyplot as plt
 
 
-#%% - SQL Injection Example
+# %% - SQL Injection Example
 username = request.values.get('username')
 password = request.values.get('password')
 
@@ -15,13 +15,13 @@ db = pymysql.connect("localhost")
 cursor = db.cursor()
 
 # Execute the vulnerable SQL query concatenating user-provided input.
-cursor.execute("SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (username, password))
+cursor.execute(
+    "SELECT * FROM users WHERE username = '%s' AND password = '%s'" % (username, password))
 
 # If the query returns any matching record, consider the current user logged in.
 record = cursor.fetchone()
 if record:
-  session['logged_user'] = username
+    session['logged_user'] = username
 
 # disconnect from server
 db.close()
-  

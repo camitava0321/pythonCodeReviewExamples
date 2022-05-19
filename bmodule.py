@@ -7,8 +7,10 @@ from amodule import aMODULE
 
 def f():
     return cmodule.g
-	
-print (f())
+
+
+print(f())
+
 
 def cleanup(self):
     return
